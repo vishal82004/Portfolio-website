@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vishal B - DevOps, SRE & Cloud Engineer</title>
+    <link rel="icon" type="image/png" href="devops_5687273.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(-45deg, #020617, #111827, #030712, #1f2937);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- Loader Styles --- */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #020617;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(0, 255, 255, 0.2);
+            border-top-color: #06b6d4; /* cyan-500 */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .content-hidden {
+            opacity: 0;
+        }
+        .content-visible {
+            opacity: 1;
+            transition: opacity 0.5s ease-in;
+        }
+
+        /* --- Card Styles --- */
+        .skill-card, .project-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .skill-card:hover, .project-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.15);
+        }
+        
+        .hire-me-btn:hover {
+             box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+        }
+
+        /* --- Typing Effect Styles --- */
+        #typing-effect::after {
+            content: '|';
+            color: #06b6d4;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            from, to { color: transparent }
+            50% { color: #06b6d4; } /* cyan-500 */
+        }
+
+        /* --- Animation classes --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideInUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .hero-title-animation {
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+        .hero-text-animation {
+            animation: slideInUp 0.8s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+        .hero-buttons-animation {
+             animation: slideInUp 0.8s ease-out 0.4s forwards;
+             opacity: 0;
+        }
+        .hero-image-animation {
+            animation: fadeIn 1s ease-out 0.6s forwards;
+            opacity: 0;
+        }
+
+        /* Scroll progress bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+            z-index: 1001;
+            transition: width 0.1s ease;
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+        }
+
+        /* Enhanced image styles */
+        .profile-image {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center center;
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
+            transition: all 0.3s ease;
+            display: block;
+        }
+        .profile-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(6, 182, 212, 0.5);
+        }
+
+        /* Image container for better centering */
+        .image-container {
+            width: 288px;
+            height: 288px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #06b6d4, #3b82f6);
+            padding: 4px;
+            transition: all 0.3s ease;
+        }
+        .image-container:hover {
+            transform: scale(1.05);
+            background: linear-gradient(45deg, #0891b2, #2563eb);
+        }
+
+        /* Alternative positioning classes for fine-tuning */
+        .profile-image.center-top { object-position: center 20%; }
+        .profile-image.center-center { object-position: center center; }
+        .profile-image.center-bottom { object-position: center 80%; }
+    </style>
+</head>
+<body class="bg-slate-900 text-gray-200">
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- Loader -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <div id="page-content" class="content-hidden">
+        <!-- Header & Navigation -->
+        <header class="bg-slate-900/70 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 border-b border-slate-800">
+            <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Vishal B</a>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#about" class="text-gray-300 hover:text-cyan-400 transition-colors">About</a>
+                    <a href="#skills" class="text-gray-300 hover:text-cyan-400 transition-colors">Skills</a>
+                    <a href="#experience" class="text-gray-300 hover:text-cyan-400 transition-colors">Experience</a>
+                    <a href="#certifications" class="text-gray-300 hover:text-cyan-400 transition-colors">Certifications</a>
+                    <a href="#projects" class="text-gray-300 hover:text-cyan-400 transition-colors">Projects</a>
+                    <a href="#contact" class="text-gray-300 hover:text-cyan-400 transition-colors">Contact</a>
+                </nav>
+                <a href="#contact" class="hidden md:block bg-cyan-500 hover:bg-cyan-600 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300 hire-me-btn">Hire Me</a>
+                <button id="mobile-menu-button" class="md:hidden">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+                <a href="#about" class="block py-2 text-gray-300 hover:text-cyan-400">About</a>
+                <a href="#skills" class="block py-2 text-gray-300 hover:text-cyan-400">Skills</a>
+                <a href="#experience" class="block py-2 text-gray-300 hover:text-cyan-400">Experience</a>
+                <a href="#certifications" class="block py-2 text-gray-300 hover:text-cyan-400">Certifications</a>
+                <a href="#projects" class="block py-2 text-gray-300 hover:text-cyan-400">Projects</a>
+                <a href="#contact" class="block py-2 text-gray-300 hover:text-cyan-400">Contact</a>
+                 <a href="#contact" class="block mt-2 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold px-4 py-2 rounded-lg text-center hire-me-btn">Hire Me</a>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-6 pt-24">
+
+            <!-- Hero Section -->
+            <section id="hero" class="min-h-[calc(100vh-6rem)] flex items-center">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 md:order-1">
+                        <h1 class="text-4xl md:text-6xl font-bold leading-tight hero-title-animation">
+                           <span id="typing-effect" class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500"></span>
+                        </h1>
+                        <p class="mt-4 text-lg text-gray-400 hero-text-animation">
+                            Aspiring DevOps, SRE, and Cloud engineer skilled in AWS, Linux, Docker, and Terraform. Passionate about automation, cloud-native technologies, and leveraging DevOps practices to deliver scalable and resilient infrastructure.
+                        </p>
+                        <div class="mt-8 flex gap-4 hero-buttons-animation">
+                            <a href="#projects" class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 hire-me-btn">View My Work</a>
+                            <a href="https://drive.google.com/file/d/12-FE9sa9cuX_vVZfc52lkRtP--REb48V/view?usp=sharing" target="_blank" class="border border-gray-600 hover:bg-gray-800 text-gray-300 font-semibold px-6 py-3 rounded-lg transition-colors flex items-center gap-2">
+                                Download CV <i data-lucide="download" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="order-1 md:order-2 flex justify-center items-center hero-image-animation">
+                        <div class="image-container">
+                            <img src="p.png" alt="Professional Headshot of Vishal B" class="profile-image center-center" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Vishal+B&background=06b6d4&color=fff&size=280&rounded=true';">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Me Section -->
+            <section id="about" class="py-24 reveal">
+                <h2 class="text-3xl font-bold text-center mb-12">About Me 🚀</h2>
+                <div class="grid md:grid-cols-5 gap-12 items-center">
+                    <div class="md:col-span-2">
+                         <div class="p-1 bg-gradient-to-tr from-cyan-500 to-blue-500 rounded-lg">
+                            <img src="https://placehold.co/600x800/111827/7DD3FC?text=About+Me" alt="Vishal B working" class="w-full rounded-lg" onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Error';">
+                        </div>
+                    </div>
+                    <div class="md:col-span-3">
+                        <p class="text-gray-400 mb-4">
+                            Hi, I'm Vishal B, an aspiring DevOps, SRE, and Cloud Engineer passionate about automation, cloud-native technologies, and building scalable infrastructure. I'm currently pursuing my B.Tech in Computer Science at VIT-AP University (2026 batch).
+                        </p>
+                        <p class="text-gray-400 mb-4">
+                            I enjoy designing systems that are efficient, reliable, and secure. With hands-on experience in CI/CD pipelines, infrastructure automation, and container orchestration, I specialize in deploying applications and managing cloud environments. I'm also learning FastAPI to strengthen my backend development skills.
+                        </p>
+                        
+                        <h3 class="text-2xl font-bold mt-8 mb-4 text-cyan-400">What I Do ⚡</h3>
+                        <ul class="space-y-3 text-gray-400">
+                            <li class="flex items-start"><i data-lucide="chevrons-right" class="w-5 h-5 text-cyan-400 mr-2 mt-1 shrink-0"></i><span>Deploying highly available web applications on AWS using CI/CD pipelines</span></li>
+                            <li class="flex items-start"><i data-lucide="chevrons-right" class="w-5 h-5 text-cyan-400 mr-2 mt-1 shrink-0"></i><span>Implementing monitoring and alerting systems to minimize downtime</span></li>
+                            <li class="flex items-start"><i data-lucide="chevrons-right" class="w-5 h-5 text-cyan-400 mr-2 mt-1 shrink-0"></i><span>Automating infrastructure provisioning using Terraform</span></li>
+                            <li class="flex items-start"><i data-lucide="chevrons-right" class="w-5 h-5 text-cyan-400 mr-2 mt-1 shrink-0"></i><span>Building and orchestrating containers with Docker & Kubernetes</span></li>
+                            <li class="flex items-start"><i data-lucide="chevrons-right" class="w-5 h-5 text-cyan-400 mr-2 mt-1 shrink-0"></i><span>Exploring FastAPI to develop scalable backend services</span></li>
+                        </ul>
+
+                        <h3 class="text-2xl font-bold mt-8 mb-4 text-cyan-400">My Goal 🎯</h3>
+                        <p class="text-gray-400">
+                            To grow as a Site Reliability Engineer and work on scalable, production-grade systems while continuously exploring modern DevOps tools and cloud-native practices.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Skills Section -->
+            <section id="skills" class="py-24 reveal">
+                <h2 class="text-3xl font-bold text-center mb-12">Technical Skills</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center">
+                        <i data-lucide="cloud" class="w-12 h-12 text-cyan-400 mx-auto mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Cloud Platforms</h3>
+                        <p class="text-gray-400">AWS, Azure</p>
+                    </div>
+                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center">
+                        <i data-lucide="server" class="w-12 h-12 text-cyan-400 mx-auto mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Containerization</h3>
+                        <p class="text-gray-400">Docker, Kubernetes</p>
+                    </div>
+                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center">
+                        <i data-lucide="terminal-square" class="w-12 h-12 text-cyan-400 mx-auto mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">IaC & Automation</h3>
+                        <p class="text-gray-400">Terraform, Ansible</p>
+                    </div>
+                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center">
+                        <i data-lucide="git-branch-plus" class="w-12 h-12 text-cyan-400 mx-auto mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">CI/CD</h3>
+                        <p class="text-gray-400">Jenkins, GitHub Actions, ArgoCD</p>
+                    </div>
+                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center">
+                        <i data-lucide="area-chart" class="w-12 h-12 text-cyan-400 mx-auto mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Observability</h3>
+                        <p class="text-gray-400">Prometheus, Grafana</p>
+                    </div>
+                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center">
+                        <i data-lucide="code" class="w-12 h-12 text-cyan-400 mx-auto mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Languages</h3>
+                        <p class="text-gray-400">Python, Java, Linux/Bash</p>
+                    </div>
+                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center">
+                        <i data-lucide="git-merge" class="w-12 h-12 text-cyan-400 mx-auto mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Version Control</h3>
+                        <p class="text-gray-400">Git, GitHub</p>
+                    </div>
+                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center">
+                        <i data-lucide="shield" class="w-12 h-12 text-cyan-400 mx-auto mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Security</h3>
+                        <p class="text-gray-400">Trivy, SonarQube</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Experience Section -->
+            <section id="experience" class="py-24 reveal">
+                <h2 class="text-3xl font-bold text-center mb-12">Work Experience</h2>
+                <div class="relative border-l-2 border-slate-700 ml-6">
+                    <!-- Experience Item 1 -->
+                    <div class="mb-12 ml-10">
+                        <div class="absolute -left-4 w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center ring-8 ring-slate-900">
+                            <i data-lucide="briefcase" class="w-4 h-4 text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-cyan-400">AWS Trainee</h3>
+                        <p class="font-medium text-gray-300">Ethnus</p>
+                        <time class="text-sm text-gray-500">June 2024 - August 2024 (Remote)</time>
+                        <ul class="mt-4 list-disc list-inside text-gray-400 space-y-2">
+                            <li>Deployed a PHP web application on AWS, ensuring optimal performance and reliability.</li>
+                            <li>Migrated a MySQL-based social research website to AWS, utilizing Aurora Serverless for scalable database hosting.</li>
+                            <li>Designed and implemented monitoring using AWS CloudWatch and SNS, reducing downtime by 20%.</li>
+                            <li>Created architecture diagrams and technical documentation for high-availability setups.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Certifications & AWS Section -->
+            <section id="certifications" class="py-24 reveal">
+                <h2 class="text-3xl font-bold text-center mb-12">Certifications</h2>
+                <div class="grid md:grid-cols-1 gap-12 items-center justify-center">
+                    <!-- AWS Certification -->
+                    <div class="bg-slate-800/50 p-8 rounded-lg max-w-2xl mx-auto">
+                        <div class="flex items-center mb-6">
+                            <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-lg flex items-center justify-center mr-4">
+                                <i data-lucide="award" class="w-8 h-8 text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-cyan-400">AWS Certified</h3>
+                                <p class="text-gray-400">Solutions Architect - Associate</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 mb-4">
+                            Certified AWS Solutions Architect with comprehensive knowledge of designing distributed systems on AWS platform.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-orange-500/20 text-orange-300 text-xs font-semibold px-3 py-1 rounded-full">SAA-C03</span>
+                            <span class="bg-orange-500/20 text-orange-300 text-xs font-semibold px-3 py-1 rounded-full">Valid</span>
+                        </div>
+                        <a href="https://www.credly.com/badges/d04e9eba-8244-4c55-8208-579ee81d3073/linked_in_profile" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors">
+                            View Credential <i data-lucide="external-link" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Education -->
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold text-center mb-8">Education</h3>
+                    <div class="grid md:grid-cols-1 gap-6 justify-center">
+                        <div class="bg-slate-800/30 p-8 rounded-lg text-center max-w-md mx-auto">
+                            <i data-lucide="graduation-cap" class="w-16 h-16 text-cyan-400 mx-auto mb-4"></i>
+                            <h4 class="text-xl font-semibold mb-3">B.Tech Computer Science</h4>
+                            <p class="text-gray-400 text-base mb-2">VIT-AP University</p>
+                            <p class="text-gray-500 text-sm">2022-2026</p>
+                            <div class="mt-4">
+                                <span class="bg-cyan-500/20 text-cyan-300 text-sm font-semibold px-3 py-1 rounded-full">In Progress</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" class="py-24 reveal">
+                <h2 class="text-3xl font-bold text-center mb-12">Featured Projects</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Project Card 1 -->
+                    <div class="project-card bg-slate-800/50 rounded-lg overflow-hidden group">
+                        <img src="amazon_eks_logo_icon_168659.png" alt="Microservices Deployment on AWS EKS" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null;this.src='https://placehold.co/512x512/111827/FFFFFF?text=Error';">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2">Microservices on AWS EKS</h3>
+                            <p class="text-gray-400 mb-4">Deployed a 5-service architecture with Redis & RabbitMQ, handling 10k+ requests at 99.9% uptime. Automated infrastructure with Terraform, cutting setup time from 3 hours to 15 mins.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-slate-700 text-cyan-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Kubernetes (EKS)</span>
+                                <span class="bg-slate-700 text-cyan-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Terraform</span>
+                                 <span class="bg-slate-700 text-cyan-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Argo CD</span>
+                                <span class="bg-slate-700 text-cyan-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Docker</span>
+                            </div>
+                            <a href="https://github.com/vishal82004/SocialMedia-Backend-Microservice-Project-Deployment" target="_blank" class="text-cyan-400 hover:underline flex items-center gap-2">View on GitHub <i data-lucide="github" class="w-5 h-5"></i></a>
+                        </div>
+                    </div>
+                    <!-- Project Card 2 -->
+                    <div class="project-card bg-slate-800/50 rounded-lg overflow-hidden group">
+                        <div class="h-48 bg-slate-700/30 flex items-center justify-center overflow-hidden">
+                            <img src="devsecops.png" alt="DevSecOps Pipeline Project" class="w-auto h-32 max-w-full object-contain group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=DevSecOps';">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2">DevSecOps Pipeline</h3>
+                            <p class="text-gray-400 mb-4">Built a secure CI/CD pipeline for a Zomato clone, cutting manual deployment time by 90%. Integrated Jenkins, SonarQube, Trivy, and OWASP to enforce code quality and security.</p>
+                             <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-slate-700 text-cyan-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Jenkins</span>
+                                <span class="bg-slate-700 text-cyan-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">SonarQube</span>
+                                <span class="bg-slate-700 text-cyan-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Trivy</span>
+                                 <span class="bg-slate-700 text-cyan-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Prometheus</span>
+                            </div>
+                            <a href="https://github.com/vishal82004/DevOps-Project-Zomato" target="_blank" class="text-cyan-400 hover:underline flex items-center gap-2">View on GitHub <i data-lucide="github" class="w-5 h-5"></i></a>
+                        </div>
+                    </div>
+                    <!-- Project Card 3 -->
+                    <div class="project-card bg-slate-800/50 rounded-lg overflow-hidden group">
+                        <img src="image.png" alt="Autism Detection in Toddlers Project" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111827/FFFFFF?text=Error';">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-2">Autism Detection in Toddlers</h3>
+                            <p class="text-gray-400 mb-4">Building the FastAPI backend for a Flutter app to assist early autism detection in toddlers by integrating the ML model for predictions and using PostgreSQL for secure data storage.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-slate-700 text-cyan-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">FastAPI</span>
+                                <span class="bg-slate-700 text-cyan-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Python</span>
+                                <span class="bg-slate-700 text-cyan-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">Flutter</span>
+                                <span class="bg-slate-700 text-cyan-300 text-xs font-semibold px-2.5 py-0.5 rounded-full">PostgreSQL</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-yellow-400 text-sm font-semibold">Currently Working</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact" class="py-24 reveal">
+                <h2 class="text-3xl font-bold text-center mb-4">Get In Touch</h2>
+                <p class="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
+                    I'm currently open to new opportunities and collaborations. Whether you have a question or just want to say hi, feel free to reach out.
+                </p>
+                <div class="flex justify-center items-center gap-8">
+                    <a href="mailto:balajivishalnivi@gmail.com" class="flex flex-col items-center text-gray-300 hover:text-cyan-400 transition-colors">
+                        <i data-lucide="mail" class="w-10 h-10 mb-2"></i>
+                        <span>Email</span>
+                    </a>
+                    <a href="https://linkedin.com/in/vishal-b-2029bb257" target="_blank" class="flex flex-col items-center text-gray-300 hover:text-cyan-400 transition-colors">
+                        <i data-lucide="linkedin" class="w-10 h-10 mb-2"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://github.com/vishalb" target="_blank" class="flex flex-col items-center text-gray-300 hover:text-cyan-400 transition-colors">
+                        <i data-lucide="github" class="w-10 h-10 mb-2"></i>
+                        <span>GitHub</span>
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-slate-900/50 border-t border-slate-800">
+            <div class="container mx-auto px-6 py-6 text-center text-gray-500">
+                <p>&copy; 2025 Vishal B. Built with AI ✨</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // --- Scroll Progress Bar ---
+        const scrollProgress = document.getElementById('scroll-progress');
+        function updateScrollProgress() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = scrollPercent + '%';
+        }
+        
+        window.addEventListener('scroll', updateScrollProgress, { passive: true });
+        window.addEventListener('resize', updateScrollProgress, { passive: true });
+
+        // --- Loader Script ---
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader');
+            const content = document.getElementById('page-content');
+            
+            loader.style.opacity = '0';
+            content.classList.remove('content-hidden');
+            content.classList.add('content-visible');
+            
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+        });
+
+        // --- Typing Effect Script ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const roles = ["DevOps Engineer", "Cloud Engineer", "SRE"];
+            let roleIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            const typingSpeed = 150;
+            const deletingSpeed = 100;
+            const delayBetweenRoles = 2000;
+            const typingElement = document.getElementById('typing-effect');
+
+            function type() {
+                if (!typingElement) return;
+                const currentRole = roles[roleIndex];
+                
+                if (isDeleting) {
+                    // Deleting
+                    charIndex--;
+                    typingElement.textContent = currentRole.substring(0, charIndex);
+                    if (charIndex === 0) {
+                        isDeleting = false;
+                        roleIndex = (roleIndex + 1) % roles.length;
+                        setTimeout(type, 500);
+                    } else {
+                        setTimeout(type, deletingSpeed);
+                    }
+                } else {
+                    // Typing
+                    charIndex++;
+                    typingElement.textContent = currentRole.substring(0, charIndex);
+                    if (charIndex === currentRole.length) {
+                        isDeleting = true;
+                        setTimeout(type, delayBetweenRoles);
+                    } else {
+                        setTimeout(type, typingSpeed);
+                    }
+                }
+            }
+            // Start typing after a short delay to allow the main animation to start
+            setTimeout(type, 800);
+        });
+
+        // --- Mobile menu toggle ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Close mobile menu when a link is clicked
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+        
+        // --- Scroll reveal animation ---
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(elem => {
+            revealObserver.observe(elem);
+        });
+
+        // --- Profile Image Enhancement ---
+        const profileImage = document.querySelector('.profile-image');
+        if (profileImage) {
+            // Add subtle mouse movement effect
+            profileImage.addEventListener('mousemove', (e) => {
+                const rect = profileImage.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                const moveX = x / rect.width * 10;
+                const moveY = y / rect.height * 10;
+                
+                profileImage.style.transform = `scale(1.05) translate(${moveX}px, ${moveY}px)`;
+            });
+            
+            profileImage.addEventListener('mouseleave', () => {
+                profileImage.style.transform = 'scale(1)';
+            });
+
+            // Add loading animation
+            profileImage.addEventListener('load', () => {
+                profileImage.style.opacity = '1';
+            });
+            
+            // Parallax effect on scroll
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset;
+                const rate = scrollTop * -0.3;
+                profileImage.style.transform = `translateY(${rate}px)`;
+            }, { passive: true });
+        }
+    </script>
+</body>
+</html>
