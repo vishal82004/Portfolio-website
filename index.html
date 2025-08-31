@@ -5,7 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vishal B - DevOps, SRE & Cloud Engineer</title>
     <link rel="icon" type="image/png" href="devops_5687273.png">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Try multiple CDN sources for Tailwind CSS -->
+    <script>
+        // Try loading Tailwind from multiple CDNs
+        const tailwindSources = [
+            'https://cdn.tailwindcss.com',
+            'https://unpkg.com/tailwindcss@3.4.0/dist/tailwind.min.css',
+            'https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.4.0/tailwind.min.css'
+        ];
+        
+        let tailwindLoaded = false;
+        let sourceIndex = 0;
+        
+        function loadTailwind() {
+            if (sourceIndex >= tailwindSources.length) {
+                // If all CDNs fail, use our comprehensive fallback
+                console.log('All Tailwind CDNs failed, using fallback styles');
+                document.body.classList.add('tailwind-fallback');
+                return;
+            }
+            
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = tailwindSources[sourceIndex];
+            link.onload = () => {
+                tailwindLoaded = true;
+                console.log('Tailwind loaded from:', tailwindSources[sourceIndex]);
+            };
+            link.onerror = () => {
+                console.log('Failed to load from:', tailwindSources[sourceIndex]);
+                sourceIndex++;
+                setTimeout(loadTailwind, 100);
+            };
+            document.head.appendChild(link);
+        }
+        
+        // Try loading the script version first
+        const script = document.createElement('script');
+        script.src = 'https://cdn.tailwindcss.com';
+        script.onload = () => {
+            tailwindLoaded = true;
+            console.log('Tailwind script loaded successfully');
+        };
+        script.onerror = () => {
+            console.log('Tailwind script failed, trying CSS versions');
+            loadTailwind();
+        };
+        document.head.appendChild(script);
+        
+        // Fallback check after 3 seconds
+        setTimeout(() => {
+            if (!tailwindLoaded) {
+                document.body.classList.add('tailwind-fallback');
+                console.log('Using fallback styles due to timeout');
+            }
+        }, 3000);
+    </script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,6 +83,513 @@
             background: linear-gradient(-45deg, #020617, #111827, #030712, #1f2937);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
+        }
+
+        /* Fallback styles in case Tailwind doesn't load */
+        .tailwind-fallback {
+            background: linear-gradient(-45deg, #020617, #111827, #030712, #1f2937) !important;
+            color: #e2e8f0 !important;
+            font-family: 'Inter', sans-serif !important;
+            line-height: 1.6;
+        }
+        
+        /* Layout */
+        .tailwind-fallback .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        .tailwind-fallback .grid { display: grid; gap: 1.5rem; }
+        .tailwind-fallback .flex { display: flex; }
+        .tailwind-fallback .items-center { align-items: center; }
+        .tailwind-fallback .justify-center { justify-content: center; }
+        .tailwind-fallback .justify-between { justify-content: space-between; }
+        .tailwind-fallback .space-x-8 > * + * { margin-left: 2rem; }
+        .tailwind-fallback .space-y-2 > * + * { margin-top: 0.5rem; }
+        .tailwind-fallback .gap-4 { gap: 1rem; }
+        .tailwind-fallback .gap-6 { gap: 1.5rem; }
+        .tailwind-fallback .gap-8 { gap: 2rem; }
+        .tailwind-fallback .gap-12 { gap: 3rem; }
+        
+        /* Typography */
+        .tailwind-fallback .text-2xl { font-size: 1.5rem; }
+        .tailwind-fallback .text-3xl { font-size: 1.875rem; }
+        .tailwind-fallback .text-4xl { font-size: 2.25rem; }
+        .tailwind-fallback .text-6xl { font-size: 3.75rem; }
+        .tailwind-fallback .text-xl { font-size: 1.25rem; }
+        .tailwind-fallback .text-lg { font-size: 1.125rem; }
+        .tailwind-fallback .text-sm { font-size: 0.875rem; }
+        .tailwind-fallback .text-xs { font-size: 0.75rem; }
+        .tailwind-fallback .font-bold { font-weight: 700; }
+        .tailwind-fallback .font-semibold { font-weight: 600; }
+        .tailwind-fallback .text-center { text-align: center; }
+        .tailwind-fallback .leading-tight { line-height: 1.25; }
+        
+        /* Colors */
+        .tailwind-fallback .text-gray-200 { color: #e5e7eb; }
+        .tailwind-fallback .text-gray-300 { color: #d1d5db; }
+        .tailwind-fallback .text-gray-400 { color: #9ca3af; }
+        .tailwind-fallback .text-gray-500 { color: #6b7280; }
+        .tailwind-fallback .text-cyan-400 { color: #22d3ee; }
+        .tailwind-fallback .text-white { color: #ffffff; }
+        .tailwind-fallback .bg-slate-900 { background-color: #0f172a; }
+        .tailwind-fallback .bg-slate-800 { background-color: #1e293b; }
+        .tailwind-fallback .bg-cyan-500 { background-color: #06b6d4; }
+        .tailwind-fallback .bg-cyan-600 { background-color: #0891b2; }
+        
+        /* Header */
+        .tailwind-fallback header { 
+            background: rgba(15, 23, 42, 0.9); 
+            backdrop-filter: blur(12px);
+            position: fixed; 
+            top: 0; 
+            left: 0;
+            right: 0;
+            width: 100%; 
+            z-index: 50; 
+            border-bottom: 1px solid #374151;
+            padding: 1rem 0;
+        }
+        
+        .tailwind-fallback .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .tailwind-fallback nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .tailwind-fallback nav a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.875rem;
+        }
+        
+        .tailwind-fallback nav a:hover {
+            color: #22d3ee;
+        }
+        
+        .tailwind-fallback .space-x-6 > * + * {
+            margin-left: 1.5rem;
+        }
+        
+        /* Main content */
+        .tailwind-fallback main { 
+            padding-top: 6rem; 
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+        
+        /* Buttons */
+        .tailwind-fallback .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .tailwind-fallback .btn-primary {
+            background-color: #06b6d4;
+            color: white;
+        }
+        
+        .tailwind-fallback .btn-primary:hover {
+            background-color: #0891b2;
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+        }
+        
+        .tailwind-fallback .btn-secondary {
+            border: 1px solid #4b5563;
+            color: #d1d5db;
+            background: transparent;
+        }
+        
+        .tailwind-fallback .btn-secondary:hover {
+            background-color: #374151;
+        }
+        
+        /* Hero section */
+        .tailwind-fallback #hero {
+            min-height: calc(100vh - 6rem);
+            display: flex;
+            align-items: center;
+        }
+        
+        .tailwind-fallback .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        @media (max-width: 768px) {
+            .tailwind-fallback .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .tailwind-fallback .text-6xl { font-size: 2.5rem; }
+            .tailwind-fallback .text-4xl { font-size: 2rem; }
+            .tailwind-fallback nav { display: none; }
+        }
+        
+        /* Cards */
+        .tailwind-fallback .card {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .tailwind-fallback .card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.15);
+        }
+        
+        /* Project cards specific styling */
+        .tailwind-fallback .project-card {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .tailwind-fallback .project-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.15);
+        }
+        
+        .tailwind-fallback .project-card img {
+            width: 100%;
+            height: 12rem;
+            object-fit: cover;
+        }
+        
+        .tailwind-fallback .project-card .p-6 {
+            padding: 1.5rem;
+        }
+        
+        /* Grid layouts */
+        .tailwind-fallback .grid-1 { grid-template-columns: 1fr; }
+        .tailwind-fallback .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .tailwind-fallback .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .tailwind-fallback .grid-4 { grid-template-columns: repeat(4, 1fr); }
+        
+        /* Projects section specific grid */
+        .tailwind-fallback #projects .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .tailwind-fallback #projects .grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .tailwind-fallback #projects .grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .tailwind-fallback .grid-4 { grid-template-columns: repeat(3, 1fr); }
+            .tailwind-fallback .grid-3 { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 768px) {
+            .tailwind-fallback .grid-4,
+            .tailwind-fallback .grid-3,
+            .tailwind-fallback .grid-2 { grid-template-columns: 1fr; }
+        }
+        
+        /* Spacing */
+        .tailwind-fallback .py-24 { padding: 6rem 0; }
+        .tailwind-fallback .py-16 { padding: 4rem 0; }
+        .tailwind-fallback .py-4 { padding: 1rem 0; }
+        .tailwind-fallback .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .tailwind-fallback .mb-12 { margin-bottom: 3rem; }
+        .tailwind-fallback .mb-8 { margin-bottom: 2rem; }
+        .tailwind-fallback .mb-4 { margin-bottom: 1rem; }
+        .tailwind-fallback .mt-8 { margin-top: 2rem; }
+        .tailwind-fallback .mt-4 { margin-top: 1rem; }
+        
+        /* Gradient text */
+        .tailwind-fallback .gradient-text {
+            background: linear-gradient(45deg, #22d3ee, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Hidden on mobile */
+        @media (max-width: 768px) {
+            .tailwind-fallback .hidden-mobile { display: none; }
+        }
+        
+        /* Mobile menu */
+        .tailwind-fallback #mobile-menu {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #374151;
+        }
+        
+        .tailwind-fallback #mobile-menu a {
+            display: block;
+            padding: 0.5rem 0;
+            color: #d1d5db;
+            text-decoration: none;
+        }
+        
+        .tailwind-fallback #mobile-menu a:hover {
+            color: #22d3ee;
+        }
+        
+        .tailwind-fallback .hidden { display: none; }
+        
+        /* Contact section */
+        .tailwind-fallback #contact .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .tailwind-fallback #contact .contact-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #d1d5db;
+            transition: color 0.3s;
+        }
+        
+        .tailwind-fallback #contact .contact-link:hover {
+            color: #22d3ee;
+        }
+        
+        /* Footer */
+        .tailwind-fallback footer {
+            background: rgba(15, 23, 42, 0.5);
+            border-top: 1px solid #374151;
+            padding: 1.5rem;
+            text-align: center;
+            color: #6b7280;
+        }
+        
+        /* About Me Section Fallback */
+        .tailwind-fallback #about .max-w-4xl {
+            max-width: 56rem;
+            margin: 0 auto;
+        }
+        
+        .tailwind-fallback #about .space-y-6 > * + * {
+            margin-top: 1.5rem;
+        }
+        
+        .tailwind-fallback #about .text-lg {
+            font-size: 1.125rem;
+        }
+        
+        .tailwind-fallback #about .leading-relaxed {
+            line-height: 1.625;
+        }
+        
+        .tailwind-fallback #about .bg-slate-800\/50 {
+            background: rgba(30, 41, 59, 0.5);
+        }
+        
+        .tailwind-fallback #about .p-6 {
+            padding: 1.5rem;
+        }
+        
+        .tailwind-fallback #about .rounded-lg {
+            border-radius: 0.5rem;
+        }
+        
+        .tailwind-fallback #about .mt-8 {
+            margin-top: 2rem;
+        }
+        
+        .tailwind-fallback #about .mb-4 {
+            margin-bottom: 1rem;
+        }
+        
+        .tailwind-fallback #about .space-y-3 > * + * {
+            margin-top: 0.75rem;
+        }
+        
+        .tailwind-fallback #about .flex {
+            display: flex;
+        }
+        
+        .tailwind-fallback #about .items-center {
+            align-items: center;
+        }
+        
+        .tailwind-fallback #about .gap-3 {
+            gap: 0.75rem;
+        }
+        
+        /* Certification badges */
+        .tailwind-fallback #certifications .flex {
+            display: flex;
+        }
+        
+        .tailwind-fallback #certifications .flex-wrap {
+            flex-wrap: wrap;
+        }
+        
+        .tailwind-fallback #certifications .gap-3 {
+            gap: 0.75rem;
+        }
+        
+        .tailwind-fallback #certifications .bg-orange-500\/20 {
+            background: rgba(249, 115, 22, 0.2);
+            color: #fed7aa;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 1px solid rgba(249, 115, 22, 0.3);
+        }
+        
+        .tailwind-fallback #certifications .bg-green-500\/20 {
+            background: rgba(34, 197, 94, 0.2);
+            color: #bbf7d0;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        
+        /* Certification card layout */
+        .tailwind-fallback #certifications .bg-slate-800\/50 {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            max-width: 42rem;
+            margin: 0 auto;
+        }
+        
+        .tailwind-fallback #certifications .flex.items-center {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tailwind-fallback #certifications .w-16 {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .tailwind-fallback #certifications .w-16 i {
+            width: 4rem;
+            height: 4rem;
+            color: #22d3ee;
+        }
+        
+        .tailwind-fallback #certifications .flex-1 {
+            flex: 1;
+        }
+        
+        .tailwind-fallback #certifications .text-2xl {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #22d3ee;
+            margin-bottom: 0.25rem;
+        }
+        
+        .tailwind-fallback #certifications .text-lg {
+            font-size: 1.125rem;
+            color: #9ca3af;
+        }
+
+        /* Education section layout */
+        .tailwind-fallback #education .bg-slate-800\/50 {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            max-width: 42rem;
+            margin: 0 auto;
+        }
+        
+        .tailwind-fallback #education .flex.items-center {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tailwind-fallback #education .w-16 {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .tailwind-fallback #education .w-16 i {
+            width: 4rem;
+            height: 4rem;
+            color: #22d3ee;
+        }
+        
+        .tailwind-fallback #education .flex-1 {
+            flex: 1;
+        }
+        
+        .tailwind-fallback #education .text-2xl {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #22d3ee;
+            margin-bottom: 0.25rem;
+        }
+        
+        .tailwind-fallback #education .text-lg {
+            font-size: 1.125rem;
+            color: #9ca3af;
+        }
+        
+        .tailwind-fallback #education .bg-cyan-500\/20 {
+            background: rgba(6, 182, 212, 0.2);
+            color: #67e8f9;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+        
+        .tailwind-fallback #education .bg-blue-500\/20 {
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 1px solid rgba(59, 130, 246, 0.3);
         }
 
         @keyframes gradientBG {
@@ -54,10 +628,31 @@
         
         .content-hidden {
             opacity: 0;
+            visibility: hidden;
         }
         .content-visible {
-            opacity: 1;
+            opacity: 1 !important;
+            visibility: visible !important;
             transition: opacity 0.5s ease-in;
+        }
+        
+        /* Emergency visibility override */
+        body {
+            min-height: 100vh;
+        }
+        
+        #page-content {
+            min-height: 100vh;
+        }
+        
+        /* Backup visibility - show content after 3 seconds no matter what */
+        @keyframes forceShow {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        #page-content {
+            animation: forceShow 0.5s ease-in 3s forwards;
         }
 
         /* --- Card Styles --- */
@@ -173,6 +768,44 @@
 </head>
 <body class="bg-slate-900 text-gray-200">
 
+    <!-- Tailwind CSS Loading Check and Fallback -->
+    <script>
+        // Check if Tailwind CSS is loading properly
+        window.addEventListener('load', function() {
+            // Create a test element to check if Tailwind classes are working
+            const testEl = document.createElement('div');
+            testEl.className = 'bg-slate-900';
+            document.body.appendChild(testEl);
+            
+            const styles = window.getComputedStyle(testEl);
+            const bgColor = styles.backgroundColor;
+            
+            // If Tailwind isn't working, add fallback styles
+            if (!bgColor || bgColor === 'rgba(0, 0, 0, 0)' || bgColor === 'transparent') {
+                document.body.classList.add('tailwind-fallback');
+                const fallbackCSS = `
+                    .tailwind-fallback {
+                        background-color: #0f172a !important;
+                        color: #e2e8f0 !important;
+                        font-family: 'Inter', sans-serif !important;
+                    }
+                    .tailwind-fallback .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+                    .tailwind-fallback header { background: rgba(15, 23, 42, 0.9); position: fixed; top: 0; width: 100%; z-index: 50; }
+                    .tailwind-fallback main { padding-top: 6rem; }
+                    .tailwind-fallback .grid { display: grid; gap: 2rem; }
+                    .tailwind-fallback .text-center { text-align: center; }
+                    .tailwind-fallback .mb-12 { margin-bottom: 3rem; }
+                    .tailwind-fallback .py-24 { padding: 6rem 0; }
+                `;
+                const style = document.createElement('style');
+                style.textContent = fallbackCSS;
+                document.head.appendChild(style);
+            }
+            
+            document.body.removeChild(testEl);
+        });
+    </script>
+
     <!-- Scroll Progress Bar -->
     <div class="scroll-progress" id="scroll-progress"></div>
 
@@ -184,36 +817,21 @@
     <div id="page-content" class="content-hidden">
         <!-- Header & Navigation -->
         <header class="bg-slate-900/70 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 border-b border-slate-800">
-            <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-                <a href="#" class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Vishal B</a>
+            <div class="container mx-auto px-6 py-4 flex justify-between items-center header-content">
+                <a href="#" class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 gradient-text">Vishal B</a>
                 
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <nav class="space-x-8">
-                        <a href="#about" class="text-gray-300 hover:text-cyan-400 transition-colors">About</a>
-                        <a href="#skills" class="text-gray-300 hover:text-cyan-400 transition-colors">Skills</a>
-                        <a href="#experience" class="text-gray-300 hover:text-cyan-400 transition-colors">Experience</a>
-                        <a href="#certifications" class="text-gray-300 hover:text-cyan-400 transition-colors">Certifications</a>
-                        <a href="#projects" class="text-gray-300 hover:text-cyan-400 transition-colors">Projects</a>
-                        <a href="#contact" class="text-gray-300 hover:text-cyan-400 transition-colors">Contact</a>
+                <!-- Navigation Menu -->
+                <div class="flex items-center space-x-6">
+                    <nav class="flex space-x-6">
+                        <a href="#about" class="text-gray-300 hover:text-cyan-400 transition-colors text-sm">About</a>
+                        <a href="#skills" class="text-gray-300 hover:text-cyan-400 transition-colors text-sm">Skills</a>
+                        <a href="#experience" class="text-gray-300 hover:text-cyan-400 transition-colors text-sm">Experience</a>
+                        <a href="#certifications" class="text-gray-300 hover:text-cyan-400 transition-colors text-sm">Certifications</a>
+                        <a href="#projects" class="text-gray-300 hover:text-cyan-400 transition-colors text-sm">Projects</a>
+                        <a href="#contact" class="text-gray-300 hover:text-cyan-400 transition-colors text-sm">Contact</a>
                     </nav>
-                    <a href="#contact" class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300 hire-me-btn">Hire Me</a>
+                    <a href="#contact" class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300 hire-me-btn btn btn-primary text-sm">Hire Me</a>
                 </div>
-
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-button" class="md:hidden">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
-            </div>
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-2">
-                <a href="#about" class="block py-2 text-gray-300 hover:text-cyan-400">About</a>
-                <a href="#skills" class="block py-2 text-gray-300 hover:text-cyan-400">Skills</a>
-                <a href="#experience" class="block py-2 text-gray-300 hover:text-cyan-400">Experience</a>
-                <a href="#certifications" class="block py-2 text-gray-300 hover:text-cyan-400">Certifications</a>
-                <a href="#projects" class="block py-2 text-gray-300 hover:text-cyan-400">Projects</a>
-                <a href="#contact" class="block py-2 text-gray-300 hover:text-cyan-400">Contact</a>
-                <a href="#contact" class="block mt-2 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold px-4 py-2 rounded-lg text-center hire-me-btn">Hire Me</a>
             </div>
         </header>
 
@@ -221,17 +839,17 @@
 
             <!-- Hero Section -->
             <section id="hero" class="min-h-[calc(100vh-6rem)] flex items-center">
-                <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="grid md:grid-cols-2 gap-12 items-center hero-grid">
                     <div class="order-2 md:order-1">
                         <h1 class="text-4xl md:text-6xl font-bold leading-tight hero-title-animation">
-                           <span id="typing-effect" class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500"></span>
+                           <span id="typing-effect" class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 gradient-text"></span>
                         </h1>
                         <p class="mt-4 text-lg text-gray-400 hero-text-animation">
                             Aspiring DevOps, SRE, and Cloud engineer skilled in AWS, Linux, Docker, and Terraform. Passionate about automation, cloud-native technologies, and leveraging DevOps practices to deliver scalable and resilient infrastructure.
                         </p>
                         <div class="mt-8 flex gap-4 hero-buttons-animation">
-                            <a href="#projects" class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 hire-me-btn">View My Work</a>
-                            <a href="https://drive.google.com/file/d/12-FE9sa9cuX_vVZfc52lkRtP--REb48V/view?usp=sharing" target="_blank" class="border border-gray-600 hover:bg-gray-800 text-gray-300 font-semibold px-6 py-3 rounded-lg transition-colors flex items-center gap-2">
+                            <a href="#projects" class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 hire-me-btn btn btn-primary">View My Work</a>
+                            <a href="https://drive.google.com/file/d/12-FE9sa9cuX_vVZfc52lkRtP--REb48V/view?usp=sharing" target="_blank" class="border border-gray-600 hover:bg-gray-800 text-gray-300 font-semibold px-6 py-3 rounded-lg transition-colors flex items-center gap-2 btn btn-secondary">
                                 Download CV <i data-lucide="download" class="w-5 h-5"></i>
                             </a>
                         </div>
@@ -245,37 +863,47 @@
             </section>
 
             <!-- About Me Section -->
-            <section id="about" class="py-16 reveal">
-                <div class="container mx-auto px-4">
-                    <h2 class="text-3xl font-bold text-center md:text-left mb-12">About Me 🚀</h2>
-                    <div class="grid md:grid-cols-5 gap-12 items-start">
-                        <div class="md:col-span-2">
-                             <div class="p-1 bg-gradient-to-tr from-cyan-500 to-blue-500 rounded-lg">
-                                <img src="https://placehold.co/600x800/111827/7DD3FC?text=About+Me" alt="Vishal B working" class="w-full rounded-lg" onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Error';">
-                            </div>
-                        </div>
-                        <div class="md:col-span-3">
-                            <p class="text-gray-400 mb-4">
-                                Hi, I'm Vishal B, an aspiring DevOps, SRE, and Cloud Engineer passionate about automation, cloud-native technologies, and building scalable infrastructure. I'm currently pursuing my B.Tech in Computer Science at VIT-AP University (2026 batch).
-                            </p>
-                            <p class="text-gray-400 mb-4">
-                                I enjoy designing systems that are efficient, reliable, and secure. With hands-on experience in CI/CD pipelines, infrastructure automation, and container orchestration, I specialize in deploying applications and managing cloud environments. I'm also learning FastAPI to strengthen my backend development skills.
-                            </p>
-                            
-                            <h3 class="text-2xl font-bold mt-8 mb-4 text-cyan-400">What I Do ⚡</h3>
-                            <ul class="space-y-3 text-gray-400">
-                                <li class="flex items-start"><i data-lucide="chevrons-right" class="w-5 h-5 text-cyan-400 mr-2 mt-1 shrink-0"></i><span>Deploying highly available web applications on AWS using CI/CD pipelines</span></li>
-                                <li class="flex items-start"><i data-lucide="chevrons-right" class="w-5 h-5 text-cyan-400 mr-2 mt-1 shrink-0"></i><span>Implementing monitoring and alerting systems to minimize downtime</span></li>
-                                <li class="flex items-start"><i data-lucide="chevrons-right" class="w-5 h-5 text-cyan-400 mr-2 mt-1 shrink-0"></i><span>Automating infrastructure provisioning using Terraform</span></li>
-                                <li class="flex items-start"><i data-lucide="chevrons-right" class="w-5 h-5 text-cyan-400 mr-2 mt-1 shrink-0"></i><span>Building and orchestrating containers with Docker & Kubernetes</span></li>
-                                <li class="flex items-start"><i data-lucide="chevrons-right" class="w-5 h-5 text-cyan-400 mr-2 mt-1 shrink-0"></i><span>Exploring FastAPI to develop scalable backend services</span></li>
-                            </ul>
+            <section id="about" class="py-24 reveal">
+                <h2 class="text-3xl font-bold text-center mb-12">About Me</h2>
+                <div class="max-w-4xl mx-auto space-y-6">
+                    <p class="text-lg text-gray-300 text-center leading-relaxed">
+                        Hi, I'm <span class="text-cyan-400 font-semibold">Vishal B</span>, an aspiring DevOps, SRE, and Cloud Engineer passionate about automation, cloud-native technologies, and building scalable infrastructure.
+                    </p>
+                    <p class="text-gray-400 text-center leading-relaxed">
+                        I'm currently pursuing my B.Tech in Computer Science at VIT-AP University (2026 batch). I enjoy designing systems that are efficient, reliable, and secure. With hands-on experience in CI/CD pipelines, infrastructure automation, and container orchestration, I specialize in deploying applications and managing cloud environments.
+                    </p>
+                    
+                    <div class="bg-slate-800/50 p-6 rounded-lg mt-8">
+                        <h3 class="text-xl font-semibold mb-4 text-cyan-400">What I Do</h3>
+                        <ul class="space-y-3 text-gray-400">
+                            <li class="flex items-center gap-3">
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-cyan-400"></i>
+                                Deploying highly available web applications on AWS using CI/CD pipelines
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-cyan-400"></i>
+                                Implementing monitoring and alerting systems to minimize downtime
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-cyan-400"></i>
+                                Automating infrastructure provisioning using Terraform
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-cyan-400"></i>
+                                Building and orchestrating containers with Docker & Kubernetes
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-cyan-400"></i>
+                                Exploring FastAPI to develop scalable backend services
+                            </li>
+                        </ul>
+                    </div>
 
-                            <h3 class="text-2xl font-bold mt-8 mb-4 text-cyan-400">My Goal 🎯</h3>
-                            <p class="text-gray-400">
-                                To grow as a Site Reliability Engineer and work on scalable, production-grade systems while continuously exploring modern DevOps tools and cloud-native practices.
-                            </p>
-                        </div>
+                    <div class="bg-slate-800/50 p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold mb-4 text-cyan-400">My Goal</h3>
+                        <p class="text-gray-400">
+                            To grow as a Site Reliability Engineer and work on scalable, production-grade systems while continuously exploring modern DevOps tools and cloud-native practices.
+                        </p>
                     </div>
                 </div>
             </section>
@@ -283,43 +911,43 @@
             <!-- Skills Section -->
             <section id="skills" class="py-24 reveal">
                 <h2 class="text-3xl font-bold text-center mb-12">Technical Skills</h2>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 grid-4">
+                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center card">
                         <i data-lucide="cloud" class="w-12 h-12 text-cyan-400 mx-auto mb-4"></i>
                         <h3 class="text-xl font-semibold mb-2">Cloud Platforms</h3>
                         <p class="text-gray-400">AWS, Azure</p>
                     </div>
-                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center">
+                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center card">
                         <i data-lucide="server" class="w-12 h-12 text-cyan-400 mx-auto mb-4"></i>
                         <h3 class="text-xl font-semibold mb-2">Containerization</h3>
                         <p class="text-gray-400">Docker, Kubernetes</p>
                     </div>
-                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center">
+                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center card">
                         <i data-lucide="terminal-square" class="w-12 h-12 text-cyan-400 mx-auto mb-4"></i>
                         <h3 class="text-xl font-semibold mb-2">IaC & Automation</h3>
                         <p class="text-gray-400">Terraform, Ansible</p>
                     </div>
-                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center">
+                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center card">
                         <i data-lucide="git-branch-plus" class="w-12 h-12 text-cyan-400 mx-auto mb-4"></i>
                         <h3 class="text-xl font-semibold mb-2">CI/CD</h3>
                         <p class="text-gray-400">Jenkins, GitHub Actions, ArgoCD</p>
                     </div>
-                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center">
+                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center card">
                         <i data-lucide="area-chart" class="w-12 h-12 text-cyan-400 mx-auto mb-4"></i>
                         <h3 class="text-xl font-semibold mb-2">Observability</h3>
                         <p class="text-gray-400">Prometheus, Grafana</p>
                     </div>
-                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center">
+                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center card">
                         <i data-lucide="code" class="w-12 h-12 text-cyan-400 mx-auto mb-4"></i>
                         <h3 class="text-xl font-semibold mb-2">Languages</h3>
                         <p class="text-gray-400">Python, Java, Linux/Bash</p>
                     </div>
-                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center">
+                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center card">
                         <i data-lucide="git-merge" class="w-12 h-12 text-cyan-400 mx-auto mb-4"></i>
                         <h3 class="text-xl font-semibold mb-2">Version Control</h3>
                         <p class="text-gray-400">Git, GitHub</p>
                     </div>
-                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center">
+                    <div class="skill-card bg-slate-800/50 p-6 rounded-lg text-center card">
                         <i data-lucide="shield" class="w-12 h-12 text-cyan-400 mx-auto mb-4"></i>
                         <h3 class="text-xl font-semibold mb-2">Security</h3>
                         <p class="text-gray-400">Trivy, SonarQube</p>
@@ -356,20 +984,20 @@
                     <!-- AWS Certification -->
                     <div class="bg-slate-800/50 p-8 rounded-lg max-w-2xl mx-auto">
                         <div class="flex items-center mb-6">
-                            <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-lg flex items-center justify-center mr-4">
-                                <i data-lucide="award" class="w-8 h-8 text-white"></i>
+                            <div class="w-16 h-16 rounded-lg flex items-center justify-center mr-6 flex-shrink-0">
+                                <i data-lucide="award" class="w-16 h-16 text-cyan-400"></i>
                             </div>
-                            <div>
-                                <h3 class="text-2xl font-bold text-cyan-400">AWS Certified</h3>
-                                <p class="text-gray-400">Solutions Architect - Associate</p>
+                            <div class="flex-1">
+                                <h3 class="text-2xl font-bold text-cyan-400 mb-1">AWS Certified</h3>
+                                <p class="text-gray-400 text-lg">Solutions Architect - Associate</p>
                             </div>
                         </div>
                         <p class="text-gray-400 mb-4">
                             Certified AWS Solutions Architect with comprehensive knowledge of designing distributed systems on AWS platform.
                         </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-orange-500/20 text-orange-300 text-xs font-semibold px-3 py-1 rounded-full">SAA-C03</span>
-                            <span class="bg-orange-500/20 text-orange-300 text-xs font-semibold px-3 py-1 rounded-full">Valid</span>
+                        <div class="flex flex-wrap gap-3 mb-4">
+                            <span class="bg-orange-500/20 text-orange-300 text-sm font-semibold px-4 py-2 rounded-full border border-orange-500/30">SAA-C03</span>
+                            <span class="bg-green-500/20 text-green-300 text-sm font-semibold px-4 py-2 rounded-full border border-green-500/30">Valid</span>
                         </div>
                         <a href="https://www.credly.com/badges/d04e9eba-8244-4c55-8208-579ee81d3073/linked_in_profile" 
                            target="_blank" 
@@ -383,13 +1011,25 @@
                 <div class="mt-12">
                     <h3 class="text-2xl font-bold text-center mb-8">Education</h3>
                     <div class="grid md:grid-cols-1 gap-6 justify-center">
-                        <div class="bg-slate-800/30 p-8 rounded-lg text-center max-w-md mx-auto">
-                            <i data-lucide="graduation-cap" class="w-16 h-16 text-cyan-400 mx-auto mb-4"></i>
-                            <h4 class="text-xl font-semibold mb-3">B.Tech Computer Science</h4>
-                            <p class="text-gray-400 text-base mb-2">VIT-AP University</p>
-                            <p class="text-gray-500 text-sm">2022-2026</p>
-                            <div class="mt-4">
-                                <span class="bg-cyan-500/20 text-cyan-300 text-sm font-semibold px-3 py-1 rounded-full">In Progress</span>
+                        <div class="bg-slate-800/50 p-8 rounded-lg max-w-2xl mx-auto">
+                            <div class="flex items-center mb-6">
+                                <div class="w-16 h-16 rounded-lg flex items-center justify-center mr-6 flex-shrink-0">
+                                    <i data-lucide="graduation-cap" class="w-16 h-16 text-cyan-400"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="text-2xl font-bold text-cyan-400 mb-1">B.Tech Computer Science</h4>
+                                    <p class="text-gray-400 text-lg">VIT-AP University</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-400 mb-4">
+                                Currently pursuing Bachelor of Technology in Computer Science with focus on DevOps, Cloud Computing, and Software Engineering practices.
+                            </p>
+                            <div class="flex flex-wrap gap-3 mb-4">
+                                <span class="bg-cyan-500/20 text-cyan-300 text-sm font-semibold px-4 py-2 rounded-full border border-cyan-500/30">2022-2026</span>
+                                <span class="bg-blue-500/20 text-blue-300 text-sm font-semibold px-4 py-2 rounded-full border border-blue-500/30">In Progress</span>
+                            </div>
+                            <div class="text-cyan-400 hover:text-cyan-300 transition-colors text-sm">
+                                Expected Graduation: 2026
                             </div>
                         </div>
                     </div>
@@ -399,7 +1039,7 @@
             <!-- Projects Section -->
             <section id="projects" class="py-24 reveal">
                 <h2 class="text-3xl font-bold text-center mb-12">Featured Projects</h2>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Project Card 1 -->
                     <div class="project-card bg-slate-800/50 rounded-lg overflow-hidden group">
                         <img src="amazon_eks_logo_icon_168659.png" alt="Microservices Deployment on AWS EKS" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null;this.src='https://placehold.co/512x512/111827/FFFFFF?text=Error';">
@@ -458,16 +1098,16 @@
                 <p class="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
                     I'm currently open to new opportunities and collaborations. Whether you have a question or just want to say hi, feel free to reach out.
                 </p>
-                <div class="flex justify-center items-center gap-8">
-                    <a href="mailto:balajivishalnivi@gmail.com" class="flex flex-col items-center text-gray-300 hover:text-cyan-400 transition-colors">
+                <div class="flex justify-center items-center gap-8 contact-links">
+                    <a href="mailto:balajivishalnivi@gmail.com" class="flex flex-col items-center text-gray-300 hover:text-cyan-400 transition-colors contact-link">
                         <i data-lucide="mail" class="w-10 h-10 mb-2"></i>
                         <span>Email</span>
                     </a>
-                    <a href="https://linkedin.com/in/vishal-b-2029bb257" target="_blank" class="flex flex-col items-center text-gray-300 hover:text-cyan-400 transition-colors">
+                    <a href="https://linkedin.com/in/vishal-b-2029bb257" target="_blank" class="flex flex-col items-center text-gray-300 hover:text-cyan-400 transition-colors contact-link">
                         <i data-lucide="linkedin" class="w-10 h-10 mb-2"></i>
                         <span>LinkedIn</span>
                     </a>
-                    <a href="https://github.com/vishalb" target="_blank" class="flex flex-col items-center text-gray-300 hover:text-cyan-400 transition-colors">
+                    <a href="https://github.com/vishalb" target="_blank" class="flex flex-col items-center text-gray-300 hover:text-cyan-400 transition-colors contact-link">
                         <i data-lucide="github" class="w-10 h-10 mb-2"></i>
                         <span>GitHub</span>
                     </a>
@@ -499,18 +1139,48 @@
         window.addEventListener('resize', updateScrollProgress, { passive: true });
 
         // --- Loader Script ---
-        window.addEventListener('load', function() {
+        let contentShown = false;
+        
+        function showContent() {
+            if (contentShown) return;
+            contentShown = true;
+            
+            console.log('Showing content');
             const loader = document.getElementById('loader');
             const content = document.getElementById('page-content');
             
-            loader.style.opacity = '0';
-            content.classList.remove('content-hidden');
-            content.classList.add('content-visible');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
+            }
             
-            setTimeout(() => {
-                loader.style.display = 'none';
-            }, 500);
-        });
+            if (content) {
+                content.classList.remove('content-hidden');
+                content.classList.add('content-visible');
+                content.style.opacity = '1';
+                content.style.visibility = 'visible';
+            }
+        }
+        
+        // Show content when window loads
+        window.addEventListener('load', showContent);
+        
+        // Show content when DOM is ready
+        document.addEventListener('DOMContentLoaded', showContent);
+        
+        // Aggressive fallback - show content after 1 second no matter what
+        setTimeout(showContent, 1000);
+        
+        // Emergency fallback - show content immediately if something goes wrong
+        setTimeout(() => {
+            const content = document.getElementById('page-content');
+            if (content && window.getComputedStyle(content).opacity === '0') {
+                console.log('Emergency fallback: forcing content visibility');
+                showContent();
+            }
+        }, 500);
 
         // --- Typing Effect Script ---
         document.addEventListener('DOMContentLoaded', function() {
@@ -554,20 +1224,8 @@
             setTimeout(type, 800);
         });
 
-        // --- Mobile menu toggle ---
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-        
-        // Close mobile menu when a link is clicked
-        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
+        // --- Mobile menu toggle (removed since no mobile menu exists) ---
+        // Mobile menu functionality removed as menu is simplified
         
         // --- Scroll reveal animation ---
         const revealElements = document.querySelectorAll('.reveal');
@@ -614,6 +1272,41 @@
                 profileImage.style.transform = `translateY(${rate}px)`;
             }, { passive: true });
         }
+    </script>
+
+    <!-- Emergency Visibility Script -->
+    <script>
+        // Emergency script to ensure content is always visible
+        (function() {
+            let attempts = 0;
+            const maxAttempts = 10;
+            
+            function forceShow() {
+                attempts++;
+                const content = document.getElementById('page-content');
+                const loader = document.getElementById('loader');
+                
+                if (content) {
+                    content.style.opacity = '1';
+                    content.style.visibility = 'visible';
+                    content.classList.add('content-visible');
+                    content.classList.remove('content-hidden');
+                }
+                
+                if (loader) {
+                    loader.style.display = 'none';
+                }
+                
+                console.log('Force show attempt:', attempts);
+                
+                if (attempts < maxAttempts && window.getComputedStyle(content || {}).opacity !== '1') {
+                    setTimeout(forceShow, 200);
+                }
+            }
+            
+            // Start forcing immediately
+            forceShow();
+        })();
     </script>
 </body>
 </html>
