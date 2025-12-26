@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vishal B | Cloud & DevOps Engineer</title>
+    <link rel="icon" type="image/png" href="devops_5687273.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        slate: {
+                            900: '#0f172a',
+                            950: '#020617',
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'marquee': 'marquee 25s linear infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles for Premium Feel */
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Background */
+        .ambient-light {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            background: linear-gradient(180deg, rgba(6, 182, 212, 0.4) 0%, rgba(59, 130, 246, 0.3) 100%);
+            filter: blur(80px);
+            opacity: 0.6;
+            border-radius: 50%;
+            animation: blob 10s infinite alternate;
+        }
+
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: #4f46e5;
+        }
+
+        .blob-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: #06b6d4;
+            animation-delay: 2s;
+        }
+
+        .blob-3 {
+            top: 40%;
+            left: 40%;
+            width: 400px;
+            height: 400px;
+            background: #10b981;
+            animation-delay: 4s;
+            opacity: 0.3;
+        }
+
+        /* Noise Overlay for Texture */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+
+        /* Bento Card Base */
+        .bento-card {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-4px) scale(1.005);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Spotlight Effect */
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(115deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transform: skewX(-20deg);
+            transition: 0.5s;
+            pointer-events: none;
+        }
+
+        .bento-card:hover::before {
+            left: 100%;
+            transition: 0.7s ease-in-out;
+        }
+
+        /* Typography Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Grid Layouts */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+            padding: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Specific Card Spans */
+        .col-span-12 {
+            grid-column: span 12;
+        }
+
+        .col-span-8 {
+            grid-column: span 8;
+        }
+
+        .col-span-6 {
+            grid-column: span 6;
+        }
+
+        .col-span-4 {
+            grid-column: span 4;
+        }
+
+        .col-span-3 {
+            grid-column: span 3;
+        }
+
+        .row-span-2 {
+            grid-row: span 2;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 1024px) {
+
+            .col-span-8,
+            .col-span-6,
+            .col-span-4,
+            .col-span-3 {
+                grid-column: span 12;
+            }
+
+            .bento-grid {
+                padding: 1rem;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        /* Marquee specific */
+        .marquee-container {
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+    </style>
+</head>
+
+<body class="antialiased selection:bg-cyan-500 selection:text-white">
+
+    <!-- Ambient Background -->
+    <div class="ambient-light">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Noise Overlay -->
+    <div class="noise"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+        <div
+            class="bg-slate-900/60 backdrop-blur-md border border-white/10 rounded-full px-6 py-3 flex gap-8 shadow-2xl">
+            <a href="#home" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Home</a>
+            <a href="#work" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Work</a>
+            <a href="#opensource" class="text-sm font-medium text-cyan-400 hover:text-cyan-300 transition-colors">Open
+                Source</a>
+            <a href="#contact" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Contact</a>
+        </div>
+    </nav>
+
+    <main class="bento-grid pt-28 pb-20">
+
+        <!-- 1. Hero / Intro Card -->
+        <div id="home" class="bento-card col-span-8 p-10 flex flex-col justify-center relative group min-h-[400px]">
+            <div class="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-40 transition-opacity duration-500">
+                <i data-lucide="terminal" class="w-32 h-32 text-cyan-500"></i>
+            </div>
+
+            <div class="relative z-10">
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold mb-6">
+                    <span class="relative flex h-2 w-2">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                    </span>
+                    Available for HIRE
+                </div>
+
+                <h1 class="font-display text-5xl md:text-7xl font-bold mb-6 tracking-tight leading-tight">
+                    Building the <br>
+                    <span class="text-gradient">Cloud Future.</span>
+                </h1>
+
+                <p class="text-slate-400 text-lg md:text-xl max-w-2xl leading-relaxed mb-8">
+                    I'm <span class="text-white font-semibold">Vishal B</span>. A DevOps & SRE practitioner obsessed
+                    with automation, scalable infrastructure, and the perfect CI/CD pipeline.
+                </p>
+
+                <div class="flex flex-wrap gap-4">
+                    <a href="#contact"
+                        class="px-6 py-3 rounded-xl bg-white text-slate-950 font-bold hover:bg-cyan-50 transition-colors flex items-center gap-2">
+                        Get in Touch <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                    <a href="https://github.com/vishal82004" target="_blank"
+                        class="px-6 py-3 rounded-xl bg-slate-800 text-white font-medium border border-slate-700 hover:border-slate-600 transition-colors flex items-center gap-2">
+                        <i data-lucide="github" class="w-4 h-4"></i> GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Profile Image & Quick Bio -->
+        <div class="bento-card col-span-4 p-2 relative min-h-[400px] flex items-end overflow-hidden group">
+            <img src="p.png" alt="Vishal B"
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                style="object-position: center top;"
+                onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Vishal+B&background=020617&color=fff&size=500';">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
+
+            <div class="relative z-10 p-6 w-full">
+                <h3 class="font-display text-2xl font-bold text-white mb-1">Vishal B</h3>
+                <p class="text-slate-400 text-sm mb-4">India • 2026 Grad</p>
+                <div class="flex gap-2">
+                    <a href="#" class="p-2 rounded-lg bg-slate-800/80 hover:bg-cyan-500 text-white transition-colors"><i
+                            data-lucide="linkedin" class="w-5 h-5"></i></a>
+                    <a href="#" class="p-2 rounded-lg bg-slate-800/80 hover:bg-cyan-500 text-white transition-colors"><i
+                            data-lucide="twitter" class="w-5 h-5"></i></a>
+                    <a href="mailto:balajivishalnivi@gmail.com"
+                        class="p-2 rounded-lg bg-slate-800/80 hover:bg-cyan-500 text-white transition-colors"><i
+                            data-lucide="mail" class="w-5 h-5"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Infinite Tech Stack Marquee -->
+        <div class="bento-card col-span-12 p-6 flex flex-col justify-center overflow-hidden">
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4 text-center">Powering Apps With
+            </p>
+            <div class="marquee-container w-full overflow-hidden">
+                <div class="flex items-center gap-12 w-fit animate-marquee">
+                    <!-- Set 1 -->
+                    <div class="flex items-center gap-2 text-slate-400 font-semibold"><i data-lucide="aws"
+                            class="w-6 h-6"></i> AWS</div>
+                    <div class="flex items-center gap-2 text-slate-400 font-semibold"><i data-lucide="container"
+                            class="w-6 h-6"></i> Docker</div>
+                    <div class="flex items-center gap-2 text-slate-400 font-semibold"><i data-lucide="box"
+                            class="w-6 h-6"></i> Kubernetes</div>
+                    <div class="flex items-center gap-2 text-slate-400 font-semibold"><i data-lucide="code-2"
+                            class="w-6 h-6"></i> Terraform</div>
+                    <div class="flex items-center gap-2 text-slate-400 font-semibold"><i data-lucide="terminal"
+                            class="w-6 h-6"></i> Linux</div>
+                    <div class="flex items-center gap-2 text-slate-400 font-semibold"><i data-lucide="git-branch"
+                            class="w-6 h-6"></i> GitHub Actions</div>
+                    <div class="flex items-center gap-2 text-slate-400 font-semibold"><i data-lucide="server"
+                            class="w-6 h-6"></i> Jenkins</div>
+                    <div class="flex items-center gap-2 text-slate-400 font-semibold"><i data-lucide="database"
+                            class="w-6 h-6"></i> PostgreSQL</div>
+                    <div class="flex items-center gap-2 text-slate-400 font-semibold"><i data-lucide="activity"
+                            class="w-6 h-6"></i> Prometheus</div>
+                    <!-- Set 2 (Duplicate for smooth loop) -->
+                    <div class="flex items-center gap-2 text-slate-400 font-semibold"><i data-lucide="aws"
+                            class="w-6 h-6"></i> AWS</div>
+                    <div class="flex items-center gap-2 text-slate-400 font-semibold"><i data-lucide="container"
+                            class="w-6 h-6"></i> Docker</div>
+                    <div class="flex items-center gap-2 text-slate-400 font-semibold"><i data-lucide="box"
+                            class="w-6 h-6"></i> Kubernetes</div>
+                    <div class="flex items-center gap-2 text-slate-400 font-semibold"><i data-lucide="code-2"
+                            class="w-6 h-6"></i> Terraform</div>
+                    <div class="flex items-center gap-2 text-slate-400 font-semibold"><i data-lucide="terminal"
+                            class="w-6 h-6"></i> Linux</div>
+                    <div class="flex items-center gap-2 text-slate-400 font-semibold"><i data-lucide="git-branch"
+                            class="w-6 h-6"></i> GitHub Actions</div>
+                    <div class="flex items-center gap-2 text-slate-400 font-semibold"><i data-lucide="server"
+                            class="w-6 h-6"></i> Jenkins</div>
+                    <div class="flex items-center gap-2 text-slate-400 font-semibold"><i data-lucide="database"
+                            class="w-6 h-6"></i> PostgreSQL</div>
+                    <div class="flex items-center gap-2 text-slate-400 font-semibold"><i data-lucide="activity"
+                            class="w-6 h-6"></i> Prometheus</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Open Source Highlight (The USER REQUEST) -->
+        <div id="opensource" class="bento-card col-span-12 md:col-span-8 p-8 relative overflow-hidden group">
+            <div class="absolute inset-0 bg-gradient-to-br from-green-900/10 to-transparent pointer-events-none"></div>
+
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 bg-slate-800 rounded-lg border border-slate-700">
+                        <i data-lucide="git-pull-request" class="w-6 h-6 text-green-400"></i>
+                    </div>
+                    <h2 class="font-display text-2xl font-bold">Open Source</h2>
+                </div>
+                <span
+                    class="bg-green-500/10 text-green-400 text-xs font-bold px-3 py-1 rounded-full border border-green-500/20">MERGED</span>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h3 class="font-bold text-xl mb-2 group-hover:text-green-400 transition-colors">
+                        terraform-aws-modules/terraform-aws-ecs</h3>
+                    <p class="text-slate-400 text-sm mb-4">Switch fluentbit output from firehose to stdout in examples.
+                    </p>
+
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center gap-3 text-sm text-slate-300">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i>
+                            <span>Improved log visibility for Fargate users</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm text-slate-300">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i>
+                            <span>Updated documentation & examples</span>
+                        </div>
+                    </div>
+
+                    <a href="https://github.com/terraform-aws-modules/terraform-aws-ecs/pull/386" target="_blank"
+                        class="inline-flex items-center gap-2 text-white bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        View PR <i data-lucide="external-link" class="w-3 h-3"></i>
+                    </a>
+                </div>
+
+                <!-- Code Snippet Visual -->
+                <div
+                    class="bg-slate-950 rounded-lg p-4 font-mono text-xs border border-slate-800 shadow-xl opacity-90 group-hover:opacity-100 transition-opacity">
+                    <div class="flex gap-1.5 mb-3">
+                        <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="text-slate-500"># fluentbit configuration</div>
+                        <div><span class="text-purple-400">module</span> <span
+                                class="text-yellow-200">"fluentbit"</span> {</div>
+                        <div class="pl-4"><span class="text-blue-300">source</span> = <span
+                                class="text-green-300">"..."</span></div>
+                        <div class="pl-4 opacity-50 line-through text-red-400">- name = "firehose"</div>
+                        <div class="pl-4 text-green-400">+ name = "stdout"</div>
+                        <div>}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Credentials / Certification -->
+        <div class="bento-card col-span-12 md:col-span-4 p-8 flex flex-col justify-between">
+            <div>
+                <i data-lucide="award" class="w-10 h-10 text-orange-400 mb-4"></i>
+                <h3 class="font-display text-xl font-bold mb-2">AWS Certified</h3>
+                <p class="text-slate-400 text-sm">Solutions Architect Associate</p>
+            </div>
+            <div class="mt-6">
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="text-2xl font-bold text-white">SAA-C03</span>
+                    <i data-lucide="check-badge" class="w-5 h-5 text-blue-400"></i>
+                </div>
+                <a href="https://www.credly.com/badges/d04e9eba-8244-4c55-8208-579ee81d3073/linked_in_profile"
+                    target="_blank"
+                    class="text-xs text-orange-400 hover:text-white transition-colors uppercase tracking-wider font-bold">Verify
+                    Badge -></a>
+            </div>
+        </div>
+
+        <!-- 6. Projects Header -->
+        <div id="work" class="col-span-12 mt-8 mb-4">
+            <h2 class="font-display text-3xl font-bold">Featured Projects</h2>
+        </div>
+
+        <!-- 7. Project Cards -->
+        <!-- Project 1 -->
+        <div class="bento-card col-span-12 md:col-span-4 p-0 group">
+            <div class="h-48 bg-slate-800 relative overflow-hidden">
+                <img src="amazon_eks_logo_icon_168659.png"
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
+                    alt="EKS">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
+            </div>
+            <div class="p-6">
+                <h3 class="font-bold text-lg mb-2 group-hover:text-cyan-400 transition-colors">Microservices on EKS</h3>
+                <p class="text-slate-400 text-sm mb-4 line-clamp-2">High-availability deployment with Redis, RabbitMQ &
+                    Terraform.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span
+                        class="px-2 py-1 bg-slate-800 rounded text-[10px] text-cyan-300 border border-slate-700">Kubernetes</span>
+                    <span
+                        class="px-2 py-1 bg-slate-800 rounded text-[10px] text-cyan-300 border border-slate-700">Terraform</span>
+                </div>
+                <a href="https://github.com/vishal82004/SocialMedia-Backend-Microservice-Project-Deployment"
+                    target="_blank"
+                    class="text-sm font-semibold text-white hover:text-cyan-400 flex items-center gap-2">Check Repo <i
+                        data-lucide="arrow-right" class="w-3 h-3"></i></a>
+            </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="bento-card col-span-12 md:col-span-4 p-0 group">
+            <div class="h-48 bg-slate-800 relative overflow-hidden flex items-center justify-center">
+                <img src="devsecops.png"
+                    class="h-32 object-contain opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
+                    alt="DevSecOps">
+            </div>
+            <div class="p-6">
+                <h3 class="font-bold text-lg mb-2 group-hover:text-cyan-400 transition-colors">DevSecOps Pipeline</h3>
+                <p class="text-slate-400 text-sm mb-4 line-clamp-2">Secured CI/CD with Jenkins, SonarQube, and Trivy
+                    integration.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span
+                        class="px-2 py-1 bg-slate-800 rounded text-[10px] text-cyan-300 border border-slate-700">Jenkins</span>
+                    <span
+                        class="px-2 py-1 bg-slate-800 rounded text-[10px] text-cyan-300 border border-slate-700">Security</span>
+                </div>
+                <a href="https://github.com/vishal82004/DevOps-Project-Zomato" target="_blank"
+                    class="text-sm font-semibold text-white hover:text-cyan-400 flex items-center gap-2">Check Repo <i
+                        data-lucide="arrow-right" class="w-3 h-3"></i></a>
+            </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="bento-card col-span-12 md:col-span-4 p-0 group">
+            <div class="h-48 bg-slate-800 relative overflow-hidden">
+                <img src="image.png"
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
+                    alt="AI Project">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
+            </div>
+            <div class="p-6">
+                <h3 class="font-bold text-lg mb-2 group-hover:text-cyan-400 transition-colors">Autism Detection API</h3>
+                <p class="text-slate-400 text-sm mb-4 line-clamp-2">FastAPI backend trained for early detection in
+                    toddlers.</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span
+                        class="px-2 py-1 bg-slate-800 rounded text-[10px] text-cyan-300 border border-slate-700">FastAPI</span>
+                    <span
+                        class="px-2 py-1 bg-slate-800 rounded text-[10px] text-cyan-300 border border-slate-700">ML</span>
+                </div>
+                <a href="#" class="text-sm font-semibold text-white hover:text-cyan-400 flex items-center gap-2">Check
+                    Repo <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
+            </div>
+        </div>
+
+        <!-- 8. Footer / Contact -->
+        <div id="contact" class="col-span-12 mt-12 text-center">
+            <a href="mailto:balajivishalnivi@gmail.com"
+                class="inline-block p-1 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 mb-8 hover:scale-105 transition-transform cursor-pointer">
+                <div class="px-8 py-4 bg-slate-900 rounded-full">
+                    <span
+                        class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-400">Let's
+                        Build Something Amazing ✨</span>
+                </div>
+            </a>
+            <p class="text-slate-600 text-sm">© 2025 Vishal B. Crafted with code & creativity.</p>
+        </div>
+
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        // Tilt Effect for cards
+        const cards = document.querySelectorAll('.bento-card');
+
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = ((y - centerY) / centerY) * -2; // Rotation force
+                const rotateY = ((x - centerX) / centerX) * 2;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+    </script>
+</body>
+
+</html>

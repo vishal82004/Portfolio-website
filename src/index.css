@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-950 text-slate-50 antialiased overflow-x-hidden selection:bg-cyan-500 selection:text-white;
+    font-feature-settings: "cv11", "ss01";
+  }
+}
+
+.ambient-light {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.blob {
+  position: absolute;
+  filter: blur(80px);
+  opacity: 0.6;
+  border-radius: 50%;
+  animation: blob 10s infinite alternate;
+}
+
+.blob-1 {
+  top: -10%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  background: #4f46e5;
+}
+
+.blob-2 {
+  bottom: -10%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: #06b6d4;
+  animation-delay: 2s;
+}
+
+.blob-3 {
+  top: 40%;
+  left: 40%;
+  width: 400px;
+  height: 400px;
+  background: #10b981;
+  animation-delay: 4s;
+  opacity: 0.3;
+}
+
+.noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 50;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Meteor Animation */
+@keyframes meteor {
+  0% {
+    transform: rotate(215deg) translateX(0);
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: rotate(215deg) translateX(-500px);
+    opacity: 0;
+  }
+}
+
+.meteor-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 2px;
+  width: 100px;
+  background: linear-gradient(to right, #94a3b8, transparent);
+  opacity: 0;
+  transform: rotate(215deg);
+  animation: meteor 5s linear infinite;
+  border-radius: 9999px;
+  box-shadow: 0 0 0 1px #ffffff10;
+}
+
+.meteor-effect::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 1px;
+  background: linear-gradient(90deg, #60a5fa, transparent);
+}
