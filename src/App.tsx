@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import {
     Github,
     Linkedin,
@@ -30,6 +30,18 @@ import projectDevSecOps from './assets/project-devsecops.png';
 import projectAutism from './assets/project-autism.png';
 
 function App() {
+    const { scrollY } = useScroll();
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    const y1 = useTransform(scrollY, [0, 500], isMobile ? [0, 0] : [0, 200]);
+
     // Terminal Typing Logic
     const terminalRef = useRef(null);
     const isInView = useInView(terminalRef, { once: true, margin: "-100px" });
@@ -130,6 +142,7 @@ function App() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.1 }}
+                    style={{ y: y1 }}
                     className="col-span-full md:col-span-4 bg-slate-900/50 border border-white/5 backdrop-blur-2xl rounded-3xl p-4 relative flex items-end overflow-hidden group min-h-[400px] md:min-h-[500px]"
                 >
                     <img
