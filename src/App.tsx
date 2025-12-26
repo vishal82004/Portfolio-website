@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { useEffect, useState, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import {
     Github,
     Linkedin,
@@ -30,10 +30,6 @@ import projectDevSecOps from './assets/project-devsecops.png';
 import projectAutism from './assets/project-autism.png';
 
 function App() {
-    const { scrollY } = useScroll();
-    const y1 = useTransform(scrollY, [0, 500], [0, 200]);
-    const y2 = useTransform(scrollY, [0, 500], [0, -150]);
-
     // Terminal Typing Logic
     const terminalRef = useRef(null);
     const isInView = useInView(terminalRef, { once: true, margin: "-100px" });
@@ -92,7 +88,7 @@ function App() {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="md:col-span-8 bg-slate-900/50 border border-white/5 backdrop-blur-2xl rounded-3xl p-8 md:p-12 flex flex-col justify-center relative overflow-hidden group min-h-[500px]"
+                    className="col-span-full md:col-span-8 bg-slate-900/50 border border-white/5 backdrop-blur-2xl rounded-3xl p-8 md:p-12 flex flex-col justify-center relative overflow-hidden group min-h-[400px] md:min-h-[500px]"
                 >
                     <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity duration-500">
                         <Terminal className="w-64 h-64 text-cyan-500" />
@@ -107,7 +103,7 @@ function App() {
                             Available for HIRE
                         </div>
 
-                        <h1 className="font-display text-5xl md:text-7xl font-bold mb-6 tracking-tight leading-tight">
+                        <h1 className="font-display text-4xl md:text-7xl font-bold mb-6 tracking-tight leading-tight">
                             Building the <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">
                                 <HackerText text="Cloud Future." />
@@ -134,8 +130,7 @@ function App() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.1 }}
-                    style={{ y: y1 }}
-                    className="md:col-span-4 bg-slate-900/50 border border-white/5 backdrop-blur-2xl rounded-3xl p-4 relative flex items-end overflow-hidden group min-h-[500px]"
+                    className="col-span-full md:col-span-4 bg-slate-900/50 border border-white/5 backdrop-blur-2xl rounded-3xl p-4 relative flex items-end overflow-hidden group min-h-[400px] md:min-h-[500px]"
                 >
                     <img
                         src={profileImg}
@@ -165,7 +160,7 @@ function App() {
                 </motion.div>
 
                 {/* 3. Tech Stack Marquee */}
-                <div className="md:col-span-12 bg-slate-900/30 border border-white/5 backdrop-blur-md rounded-3xl p-8 overflow-hidden relative">
+                <div className="col-span-full md:col-span-12 bg-slate-900/30 border border-white/5 backdrop-blur-md rounded-3xl p-8 overflow-hidden relative">
                     <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-slate-900 to-transparent z-10"></div>
                     <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-slate-900 to-transparent z-10"></div>
 
@@ -211,7 +206,7 @@ function App() {
                 {/* 4. Open Source Highlight */}
                 <motion.div
                     whileHover={{ scale: 1.01 }}
-                    className="md:col-span-8 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 border border-white/10 rounded-3xl p-8 relative overflow-hidden group"
+                    className="col-span-full md:col-span-8 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 border border-white/10 rounded-3xl p-8 relative overflow-hidden group"
                     id="opensource"
                 >
                     <div className="absolute inset-0 bg-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -278,7 +273,7 @@ function App() {
                 {/* 5. Credential Card */}
                 <motion.div
                     whileHover={{ scale: 1.02 }}
-                    className="md:col-span-4 bg-slate-900/50 border border-white/5 backdrop-blur-2xl rounded-3xl p-8 flex flex-col justify-between group"
+                    className="col-span-full md:col-span-4 bg-slate-900/50 border border-white/5 backdrop-blur-2xl rounded-3xl p-8 flex flex-col justify-between group"
                 >
                     <div>
                         <div className="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center mb-6 text-orange-500 group-hover:scale-110 transition-transform">
@@ -298,7 +293,7 @@ function App() {
                 {/* 5.5. Experience Card */}
                 <motion.div
                     whileHover={{ scale: 1.01 }}
-                    className="md:col-span-12 bg-slate-900/50 border border-white/5 backdrop-blur-2xl rounded-3xl p-8 group relative overflow-hidden"
+                    className="col-span-full md:col-span-12 bg-slate-900/50 border border-white/5 backdrop-blur-2xl rounded-3xl p-8 group relative overflow-hidden"
                 >
                     <div className="absolute inset-0 bg-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
@@ -325,7 +320,7 @@ function App() {
                 </motion.div>
 
                 {/* 6. Projects Header */}
-                <div className="col-span-12 mt-12 mb-4 flex items-end justify-between" id="work">
+                <div className="col-span-full md:col-span-12 mt-12 mb-4 flex items-end justify-between" id="work">
                     <div>
                         <h2 className="font-display text-4xl font-bold text-white mb-4">Featured Projects</h2>
                         <p className="text-slate-400 max-w-xl">A selection of my recent work in Cloud Engineering, DevOps, and Full Stack Development.</p>
@@ -362,7 +357,7 @@ function App() {
                     <motion.div
                         key={i}
                         whileHover={{ y: -5 }}
-                        className="md:col-span-4 bg-slate-900/50 border border-white/5 backdrop-blur-md rounded-3xl overflow-hidden group hover:border-cyan-500/30 transition-colors"
+                        className="col-span-full md:col-span-4 bg-slate-900/50 border border-white/5 backdrop-blur-md rounded-3xl overflow-hidden group hover:border-cyan-500/30 transition-colors"
                     >
                         <div className="h-48 bg-slate-800/50 relative overflow-hidden p-6 flex items-center justify-center">
                             <img src={project.image} alt={project.title} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"

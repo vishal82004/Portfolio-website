@@ -16,10 +16,10 @@ export const HackerText: React.FC<HackerTextProps> = ({ text, className }) => {
         clearInterval(intervalRef.current);
 
         intervalRef.current = setInterval(() => {
-            setDisplayText(prev =>
+            setDisplayText(_prev =>
                 text
                     .split("")
-                    .map((letter, index) => {
+                    .map((_letter, index) => {
                         if (index < iteration) {
                             return text[index];
                         }
